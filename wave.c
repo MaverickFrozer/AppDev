@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "screen.h"
+#include "comm.h"
 void testTone(int freq, double d){
 	FILE *fp;
 	short int sample;
@@ -65,22 +66,44 @@ void printID(char id[]){
 	
 void fillID(const char*s, char d[]){
 	int i;
-	for(i=0; i<4; i++) d[i] = *s++;
+ 	for(i=0; i<4; i++) d[i] = *s++;
 }
+// function displayWAVdata calculate 1-sec samples
 void displayWAVdata(short int d[]){
 	int i, j;
-	double sum200, rms200;
+	double sum200, rms200, max200=0.0, min200=200;
+	double Leqf[8], sum2000 = 0.0;
+	
 	for(i=0; i<80; i++){
 		sum200=0.0;	// initialize the accumulate
 		for(j=0; j<SAMPLE_RATE/80; ++j){
-			sum200 += (*d) * (*d);
+			sum200 += (*d)*(*d);
 			d++;	// traet d as a pointer, pointer incresement
 		}
+			sum2000 += sum200;
+		if(i%10 == 9){	// for every 10 pieces of rms200, we get a rms200
+			Leqf[i/10] = sqrt(sum2000/SAMPLE_RATE/8);
+			sum2000 = 0.0;	// reset sum2000
+		}
+	
 		rms200=sqrt(sum200/(SAMPLE_RATE/80));
+		rms200 = 20*log10(rms200);
+		// please find maximum and minimum value of rms200
+		if(rms200 < min200) min200 = rms200;
+		if(rms200 > max200) max200 = rms200;
 #ifdef DEBUG 	// conditional compiling
 		printf("%d %10.2f ", i, rms200);
 #else
 		displayBar(rms200, i+1);
 #endif
 	}
+	// display max200 and min200 in debug mode
+#ifdef DEBUG
+	printf("\nmin = %.2f, max = %.2f\n", min200, max200);
+#endif
+#ifdef COMM	// only in the case COMM is defined, send data to the server
+	send_data_curl(Leqf);
+#endif
 }
+
+

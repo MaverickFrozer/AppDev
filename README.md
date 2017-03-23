@@ -1,10 +1,10 @@
-# This is my readme file
+# This is my readme file, by Huy Nguyen
 Raspberry Pi acoustic sensor project
 
 This project will turn a raspberry Pi 3 into an acoustic sensor.
-
+---------------------------------------------------------------
 1. Configuration
-
+-----------------
 1.1 Hardward configuration
 
 A raspberry Pi 3 is recommended. If a older version of Pi is used, corresponding configuration might be changed.

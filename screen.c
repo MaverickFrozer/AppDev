@@ -23,7 +23,7 @@ void clearScreen(void){
 	
 void displayBar(double rms, int col){
 	int i;
-	for(i=80;i>rms/100;i--){
+	for(i=0;i<rms/100;i++){
 		gotoXY(i+2, col);
 #ifndef UNICODE
 		printf("*");
