@@ -20,16 +20,16 @@ It is recommended to have Ethernet connection for your Pi.
 The USB sound card has to be set as default audio device. To do so, you need to modify files with following contents.
 - Type "lsusb" in console and check USD.
 - Use command: "sudo nano /etc/asound.conf" and type:
-pcm.!default {
-type plug
-slave {
-pcm "hw:1,0"
-}
-}
-ctl.!default {
-type hw
-card 1
-}
+	pcm.!default {
+		type plug
+		slave {
+			pcm "hw:1,0"
+		}
+	}
+	ctl.!default {
+	type hw
+	card 1
+	}
 - Use command nano .asoundrc and put the same content.
 - Finally, Run alsamixer and check USB sound card as the default audio device.
 If you are using Raspian Jessie, you have to roll-back alsa-utils to an early vesion.
@@ -47,6 +47,16 @@ Firstly inserting USB sound card and also headphone in. The Raspberry Pi 3 input
 Using UTF-8 as compromise character encoding system - Character 2590th as the appearance of the sound level graph.
 The graph changes due to the sound level, the louder the sound the higher the peak.
 
+3. Bug dealing
+--------------
+There will be a bug whi make the program doesn't stop. In order stop, we need to add contents into C files.
+
+4. Warning
+----------
+To stop the application, remember to use "ctrl C". There will be a problem if stopping the audio with "ctrl Z".
+"Ctrl Z" is not to stop the audio record, the recording function would keep running and cause problem.
+To fix the problem: type "ps" command and check if the audio still run.
+Next, use "fg" command to stop the current job.
 
  
 
