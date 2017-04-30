@@ -1,4 +1,4 @@
-https://github.com/MaverickFrozer/AppDev/blob/master/README.md
+https://github.com/MaverickFrozer/AppDev
 # This is my readme file, by Huy Nguyen
 Raspberry Pi acoustic sensor project
 
